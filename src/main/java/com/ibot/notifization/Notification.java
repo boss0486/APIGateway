@@ -10,7 +10,7 @@ package com.ibot.notifization;
  */
 public class Notification {
 
-    public static JsonResult Data(String message, Object data) {
+    public static JsonDataResult Data(String message, Object data) {
         InternalNotifization internalNotifization = new InternalNotifization();
         return internalNotifization.DataResult(message, data);
     }
@@ -20,7 +20,7 @@ public class Notification {
         return internalNotifization.SuccessResult(message);
     }
 
-    public static JsonResult Success(String message, Object data) {
+    public static JsonDataResult Success(String message, Object data) {
         InternalNotifization internalNotifization = new InternalNotifization();
         return internalNotifization.SuccessResult(message, data);
     }

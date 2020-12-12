@@ -13,16 +13,16 @@ import org.springframework.http.HttpStatus;
  */
 public class InternalNotifization {
 
-    public JsonResult DataResult(String message, Object data) {
-        return new JsonResult(HttpStatus.OK.value(), message, data);
+    public JsonDataResult DataResult(String message, Object data) {
+        return new JsonDataResult(HttpStatus.OK.value(), message, data);
     }
 
     public JsonResult SuccessResult(String message) {
         return new JsonResult(HttpStatus.OK.value(), message);
     }
 
-    public JsonResult SuccessResult(String message, Object data) {
-        return new JsonResult(HttpStatus.OK.value(), message, data);
+    public JsonDataResult SuccessResult(String message, Object data) {
+        return new JsonDataResult(HttpStatus.OK.value(), message, data);
     }
 
     public JsonResult InvalidResult(String message) {

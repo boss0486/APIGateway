@@ -9,7 +9,8 @@ package com.ibot.application.Deposit.Entities;
  *
  * @author Allen
  */
-public class CardDepositCreate {
-    public int cardType ;
-    public double cardValue ;   
+public class CardDepositTopupModel {
+
+    public int cardType;
+    public double cardValue;
 }

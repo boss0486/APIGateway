@@ -9,11 +9,11 @@ package com.ibot.notifization;
  *
  * @author Allen
  */
-public class JsonResult {
+public class JsonDataResult {
 
     private int status;
     private String message;
-//    private Object data = null;
+    private Object data = null;
 
     public void setStatus(int _status) {
         this.status = _status;
@@ -31,26 +31,22 @@ public class JsonResult {
         return this.message;
     }
 
-//    public Object getData() {
-//        return data;
-//    }
-//
-//    public void setData(Object data) {
-//        this.data = data;
-//    }
+    public Object getData() {
+        return data;
+    }
 
-    public JsonResult(int _status, String _message) {
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public JsonDataResult(int _status, String _message) {
         this.status = _status;
         this.message = _message;
     }
 
-    public JsonResult(int _status, String _message, Object _data) {
+    public JsonDataResult(int _status, String _message, Object _data) {
         this.status = _status;
         this.message = _message;
-//        if (_data != null) {
-//            this.data = _data;
-//        }
-
+        this.data = _data;
     }
 }
-

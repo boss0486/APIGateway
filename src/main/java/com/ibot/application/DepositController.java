@@ -5,8 +5,8 @@
  */
 package com.ibot.application;
 
-import com.ibot.application.Deposit.Entities.CardDeposit;
-import com.ibot.application.Deposit.Entities.CardDepositCreate;
+import com.ibot.application.Deposit.Entities.ApiCardDepositModel;
+import com.ibot.application.Deposit.Entities.CardDepositTopupModel;
 import com.ibot.application.Deposit.Services.CardDepositService;
 import com.ibot.notifization.JsonResult;
 import com.ibot.notifization.Message;
@@ -26,14 +26,14 @@ public class DepositController {
 
     @ResponseBody
     @RequestMapping(value = "/api/test", method = RequestMethod.POST)
-    public CardDeposit Test01(@RequestBody CardDeposit model) {
+    public ApiCardDepositModel Test01(@RequestBody ApiCardDepositModel model) {
         return model;
     }
 
     //@PostMapping(value = "/api/deposit")
     @ResponseBody
     @RequestMapping(value = "/api/deposit", method = RequestMethod.POST)
-    public JsonResult Deposit(@RequestBody CardDepositCreate model) {
+    public JsonResult Deposit(@RequestBody CardDepositTopupModel model) {
         try {
             CardDepositService cardDepositService = new CardDepositService();
             return cardDepositService.Topup(model);

@@ -5,8 +5,11 @@
  */
 package com.ibot.application.Deposit.Services;
 
-import com.ibot.application.Deposit.Entities.CardDeposit;
-import com.ibot.application.Deposit.Entities.CardDepositCreate;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
+import com.ibot.application.Deposit.Entities.ApiCardDepositModel;
+import com.ibot.application.Deposit.Entities.CardDepositTopupModel;
 import com.ibot.notifization.JsonResult;
 import com.ibot.notifization.Message;
 import com.ibot.notifization.Notification;
@@ -17,7 +20,7 @@ import com.ibot.notifization.Notification;
  */
 public class CardDepositService {
 
-    public JsonResult Topup(CardDepositCreate model) {
+    public JsonResult Topup(CardDepositTopupModel model) {
         // something here
         int cardType = model.cardType;
         double cardValue = model.cardValue;
@@ -37,21 +40,39 @@ public class CardDepositService {
         }
 
         if (result == 1) {
-            return Notification.Success(Message.Success);
+            return Notification.Success(Message.Success +  "2");
         }
         return Notification.Error(Message.NotService);
     }
 
-    private int ViettelProviderTopup(CardDepositCreate model) {
-        //https://stackoverflow.com/questions/42365266/call-another-rest-api-from-my-server-in-spring-boot
+    private int ViettelProviderTopup(CardDepositTopupModel model) {
+        // convert param obj to json
+        ApiCardDepositModel apiCardDeposit = new ApiCardDepositModel();
+        apiCardDeposit.id = "1";
+        apiCardDeposit.userName = "2";
+        apiCardDeposit.password = "3";
+        apiCardDeposit.pin = "233";
+        apiCardDeposit.seri = "4324";
+        apiCardDeposit.cardValue = 0;
+        apiCardDeposit.cardReal = 0;
+        apiCardDeposit.code = 0;
+        apiCardDeposit.message = "43";
+        apiCardDeposit.logTransaction = "432";
+        apiCardDeposit.key = "ACZ";
+        apiCardDeposit.cardtype = 0;
+        // strin param
+        Gson gson = new Gson();
+        String jsonParam = gson.toJson(apiCardDeposit);
+        
+        System.out.print("Rs:" + jsonParam);  
         return 1;
     }
 
-    private int MobiProviderTopup(CardDepositCreate model) {
+    private int MobiProviderTopup(CardDepositTopupModel model) {
         return 1;
     }
 
-    private int VinaProviderTopup(CardDepositCreate model) {
+    private int VinaProviderTopup(CardDepositTopupModel model) {
         return 1;
     }
 
