@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -19,79 +20,88 @@ import javax.persistence.Id;
  */
 @Entity
 @Table(name = "app_deposit")
-public class DepositCard implements Serializable {
+public class DepositCard extends EntityModel implements Serializable {
 
+    public DepositCard() {
+        this.id = UUID.randomUUID().toString().toLowerCase();
+    } 
     @Id
-    @Column(name = "id", length = 36, nullable = false)
-    private String id = UUID.randomUUID().toString().toLowerCase();
-    //
-    @Column(name = "loginid", length = 36, nullable = false)
-    private String loginid;
-    @Column(name = "card_type")
-    private int card_type;
-    @Column(name = "card_value")
-    private int card_value;
-    @Column(name = "card_serial", length = 20, nullable = false)
-    private String card_serial;
-    @Column(name = "card_code", length = 20, nullable = false)
-    private String card_code;
-    @Column(name = "transaction_status")
-    private int transaction_status;
-
-    // **************************************************************************
-    public String getId() {
-        return id;
-    }
-
+    @Column(name = "ID", length = 36, nullable = false) 
+    private String id;
     public void setId(String id) {
         this.id = id;
     }
 
+    public String getId() {
+        return id;
+    }
+//    private String id = UUID.randomUUID().toString().toLowerCase();
+    //
+    @Column(name = "LoginID", length = 36, nullable = false)
+    private String loginId;
+    @Column(name = "CardType")
+    private int cardType;
+    @Column(name = "CardValue")
+    private int cardValue;
+    @Column(name = "CardSerial", length = 20, nullable = false)
+    private String cardSerial;
+    @Column(name = "CardCode", length = 20, nullable = false)
+    private String cardCode;
+    @Column(name = "TransactionStatus")
+    private int transactionStatus;
+    // **************************************************************************
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
     public String getLoginId() {
-        return loginid;
+        return loginId;
     }
 
     public void setLoginId(String loginId) {
-        this.loginid = loginId;
+        this.loginId = loginId;
     }
 
     public int getCardType() {
-        return card_type;
+        return cardType;
     }
 
     public void setCardType(int cardType) {
-        this.card_type = cardType;
+        this.cardType = cardType;
     }
 
     public int getCardValue() {
-        return card_value;
+        return cardValue;
     }
 
     public void setCardValue(int cardValue) {
-        this.card_value = cardValue;
+        this.cardValue = cardValue;
     }
 
     public String getCardSerial() {
-        return card_serial;
+        return cardSerial;
     }
 
     public void setCardSerial(String cardSerial) {
-        this.card_serial = cardSerial;
+        this.cardSerial = cardSerial;
     }
 
     public String getCardCode() {
-        return card_code;
+        return cardCode;
     }
 
     public void setCardCode(String cardCode) {
-        this.card_code = cardCode;
+        this.cardCode = cardCode;
     }
 
     public int getTransactionStatus() {
-        return transaction_status;
+        return transactionStatus;
     }
 
     public void setTransactionStatus(int transactionStatus) {
-        this.transaction_status = transactionStatus;
+        this.transactionStatus = transactionStatus;
     }
 }

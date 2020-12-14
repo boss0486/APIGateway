@@ -20,13 +20,13 @@ import javax.persistence.Temporal;
 @MappedSuperclass // apply for all entity class
 public class EntityModel {
 
-    @Column(name = "created_by", length = 36, nullable = true)
-    private String created_by;
-    @Column(name = "created_date")
+    @Column(name = "CreatedBy", length = 36, nullable = true)
+    private String createdBy;
+    @Column(name = "CreatedDate")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created_date;
-    @Column(name = "modified_by", length = 36, nullable = true)
-    private String modified_by;
-    @Column(name = "modified_date")
-    private String modified_date;
+    private Date createdDate;
+    @Column(name = "ModifiedBy", length = 36, nullable = true)
+    private String modifiedBy;
+    @Column(name = "ModifiedDate")
+    private String modifiedDate;
 }
