@@ -33,13 +33,9 @@ public class DepositController {
     @ResponseBody
     @RequestMapping(value = "/api/deposit", method = RequestMethod.POST)
     public JsonResult Deposit(@RequestBody DepositTopupModel model) {
-        try {
+        
             DepositService cardDepositService = new DepositService();
-            return cardDepositService.Topup(model);
-
-        } catch (Exception ex) {
-            return Notification.Error("::" + ex);
-        }
+            return cardDepositService.Topup(model); 
 
     }
 
