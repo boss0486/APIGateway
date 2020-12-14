@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.application.Deposit.Entities;
+package com.ibot.module.deposit.entities;
 
 /**
  *
  * @author Allen
  */
-public class CardDepositTopupModel {
+public class DepositTopupModel {
 
     public int cardType;
     public double cardValue;

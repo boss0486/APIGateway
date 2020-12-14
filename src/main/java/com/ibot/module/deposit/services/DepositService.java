@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.application.Deposit.Services;
+package com.ibot.module.deposit.services;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
-import com.ibot.application.Deposit.Entities.ApiCardDepositModel;
-import com.ibot.application.Deposit.Entities.CardDepositTopupModel;
+import com.ibot.module.deposit.entities.ApiDepositModel;
+import com.ibot.module.deposit.entities.DepositTopupModel;
 import com.ibot.notifization.JsonResult;
 import com.ibot.notifization.Message;
 import com.ibot.notifization.Notification;
@@ -18,9 +16,9 @@ import com.ibot.notifization.Notification;
  *
  * @author Allen
  */
-public class CardDepositService {
+public class DepositService {
 
-    public JsonResult Topup(CardDepositTopupModel model) {
+    public JsonResult Topup(DepositTopupModel model) {
         // something here
         int cardType = model.cardType;
         double cardValue = model.cardValue;
@@ -45,9 +43,9 @@ public class CardDepositService {
         return Notification.Error(Message.NotService);
     }
 
-    private int ViettelProviderTopup(CardDepositTopupModel model) {
+    private int ViettelProviderTopup(DepositTopupModel model) {
         // convert param obj to json
-        ApiCardDepositModel apiCardDeposit = new ApiCardDepositModel();
+        ApiDepositModel apiCardDeposit = new ApiDepositModel();
         apiCardDeposit.id = "1";
         apiCardDeposit.userName = "2";
         apiCardDeposit.password = "3";
@@ -68,11 +66,11 @@ public class CardDepositService {
         return 1;
     }
 
-    private int MobiProviderTopup(CardDepositTopupModel model) {
+    private int MobiProviderTopup(DepositTopupModel model) {
         return 1;
     }
 
-    private int VinaProviderTopup(CardDepositTopupModel model) {
+    private int VinaProviderTopup(DepositTopupModel model) {
         return 1;
     }
 

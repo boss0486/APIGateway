@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.application.Deposit.Entities;
+package com.ibot.module.deposit.entities;
 
 /**
  *
  * @author Allen
  */
  
-public class ApiCardDepositModel  {
+public class ApiDepositModel  {
     public String id ;
     public String userName ;
     public String password ;

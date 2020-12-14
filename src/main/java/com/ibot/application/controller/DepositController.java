@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.application;
+package com.ibot.application.controller;
 
-import com.ibot.application.Deposit.Entities.ApiCardDepositModel;
-import com.ibot.application.Deposit.Entities.CardDepositTopupModel;
-import com.ibot.application.Deposit.Services.CardDepositService;
+import com.ibot.module.deposit.entities.ApiDepositModel;
+import com.ibot.module.deposit.entities.DepositTopupModel;
+import com.ibot.module.deposit.services.DepositService;
 import com.ibot.notifization.JsonResult;
-import com.ibot.notifization.Message;
 import com.ibot.notifization.Notification;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +25,16 @@ public class DepositController {
 
     @ResponseBody
     @RequestMapping(value = "/api/test", method = RequestMethod.POST)
-    public ApiCardDepositModel Test01(@RequestBody ApiCardDepositModel model) {
+    public ApiDepositModel Test01(@RequestBody ApiDepositModel model) {
         return model;
     }
 
     //@PostMapping(value = "/api/deposit")
     @ResponseBody
     @RequestMapping(value = "/api/deposit", method = RequestMethod.POST)
-    public JsonResult Deposit(@RequestBody CardDepositTopupModel model) {
+    public JsonResult Deposit(@RequestBody DepositTopupModel model) {
         try {
-            CardDepositService cardDepositService = new CardDepositService();
+            DepositService cardDepositService = new DepositService();
             return cardDepositService.Topup(model);
 
         } catch (Exception ex) {
