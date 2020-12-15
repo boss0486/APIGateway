@@ -19,17 +19,4 @@ public class ApiDepositModel {
     public String cardSerial;
     public String cardCode;
     public String signature;
-
-//    public String id ;
-//    public String userName ;
-//    public String password ;
-//    public String pin ;
-//    public String seri ;
-//    public double cardValue ;
-//    public double cardReal ;
-//    public int code ;
-//    public String message ;
-//    public String logTransaction ;
-//    public String key ;
-//    public int cardtype ;
 }

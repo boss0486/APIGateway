@@ -9,7 +9,7 @@ package com.ibot.module.type;
  *
  * @author Allen
  */
-public class IntProviderOption {
+public class OptionListModel {
 
     public int id;
     public String code;
@@ -31,7 +31,7 @@ public class IntProviderOption {
         this.title = Title;
     }
 
-    public IntProviderOption(int id, String code, String Title) {
+    public OptionListModel(int id, String code, String Title) {
         this.id = id;        
         this.code = code; 
         this.title = Title;

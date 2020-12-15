@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.application;
+package com.ibot.application; 
 import com.ibot.module.deposit.entities.DepositCard;
-import com.ibot.module.deposit.repository.DepositRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
 
 /**
  *
@@ -27,8 +25,9 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
         System.out.println("ok");
+//        com.ibot.datawsdl.soapxml.APIRechargeService xmlHelper =  new APIRechargeService();
+//        xmlHelper.apiCom01_Topup("Test soap xml");
 
     }
 
-     
 }

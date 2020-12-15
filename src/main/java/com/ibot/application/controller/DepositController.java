@@ -7,8 +7,7 @@ package com.ibot.application.controller;
 
 import com.ibot.module.deposit.entities.ApiDepositModel;
 import com.ibot.module.deposit.entities.DepositTopupModel;
-import com.ibot.module.deposit.services.DepositService;
-import com.ibot.module.deposit.services.Impl.DepositServiceImpl;
+import com.ibot.module.deposit.Impl.DepositImpl;
 import com.ibot.notifization.JsonResult;
 import com.ibot.notifization.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.ibot.module.deposit.services.IDepositService;
 
 /**
  *
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DepositController {
 
     @Autowired
-    DepositService cardDepositService;
+    IDepositService cardDepositService;
 
     @ResponseBody
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -39,8 +39,8 @@ public class DepositController {
     @ResponseBody
     @RequestMapping(value = "/deposit", method = RequestMethod.POST)
     public JsonResult Deposit(@RequestBody DepositTopupModel model) {
-//        DepositService cardDepositService=new DepositServiceImpl();
-        return cardDepositService.Topup(model);
+        DepositImpl cDepositImpl = new DepositImpl();
+        return cDepositImpl.Topup(model);
 
     }
 

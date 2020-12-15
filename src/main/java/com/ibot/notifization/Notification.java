@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.ibot.notifization;
+
 /**
  *
  * @author Allen
@@ -30,8 +31,23 @@ public class Notification {
         return internalNotifization.InvalidResult(message);
     }
 
+    public static JsonResult NotFound(String message) {
+        InternalNotifization internalNotifization = new InternalNotifization();
+        return internalNotifization.NotFoundResult(message);
+    }
+
     public static JsonResult Error(String message) {
         InternalNotifization internalNotifization = new InternalNotifization();
         return internalNotifization.ErrorResult(message);
+    }
+
+    public static JsonResult NotFound() {
+        InternalNotifization internalNotifization = new InternalNotifization();
+        return internalNotifization.NotFoundResult(MessageText.NotFound);
+    }
+
+    public static JsonResult NotService() {
+        InternalNotifization internalNotifization = new InternalNotifization();
+        return internalNotifization.ErrorResult(MessageText.NotService);
     }
 }
