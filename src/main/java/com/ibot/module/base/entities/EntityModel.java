@@ -28,6 +28,5 @@ public class EntityModel {
     @Column(name = "ModifiedBy", length = 36, nullable = true)
     private String modifiedBy;
     @Column(name = "ModifiedDate")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date modifiedDate;
+    private String modifiedDate;
 }

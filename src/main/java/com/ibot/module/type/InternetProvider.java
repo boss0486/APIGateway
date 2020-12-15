@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.type;
+package com.ibot.module.type; 
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,14 +26,10 @@ public class InternetProvider {
 //        intProviderOptions.add(new IntProviderOption(3, "VINA", "Vina Phone"));
 //        return intProviderOptions;
 //    }
-    public List<OptionListModel> InternetProviderData = Arrays.asList(
-            new OptionListModel(1, "VT", "Viettel"),
-            new OptionListModel(2, "MOBI", "Mobi Phone"),
-            new OptionListModel(3, "VINA", "Vina Phone")
+    public List<IntProviderOption> InternetProviderData = Arrays.asList(
+            new IntProviderOption(1, "VT", "Viettel"),
+            new IntProviderOption(2, "MOBI", "Mobi Phone"),
+            new IntProviderOption(3, "VINA", "Vina Phone")
     );
-    public List<OptionListModel> CompProviderData = Arrays.asList(
-            new OptionListModel(1, "COMP01", "Partner 01"),
-            new OptionListModel(2, "COMP01", "Partner 02"),
-            new OptionListModel(3, "COMP01", "Partner 03")
-    );
+
 }

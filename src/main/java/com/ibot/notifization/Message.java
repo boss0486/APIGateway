@@ -9,7 +9,7 @@ package com.ibot.notifization;
  *
  * @author Allen
  */
-public class MessageText {
+public class Message {
 
     public static String Duplicate = "Dữ liệu đã tồn tại.";
     public static String Forbidden = "Bạn không có quyền truy cập";
@@ -27,5 +27,21 @@ public class MessageText {
     public static String CancelSuccess = "Đã hủy";
     public static String AsyncSuccess = "Đã đồng bộ";
     public static String Success = "Thành công";
-    public static String DownLoad = "Xin chờ..."; 
+    public static String DownLoad = "Xin chờ...";
+
+//    public List<JsonModel> MessageData() {
+//        List<JsonModel> listData = new ArrayList(); 
+//        
+//        listData.add(new JsonResult(200, "Thành công"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//        listData.add(new JsonResult(200, "OK"));
+//
+//        return listData;
+//    }
 }

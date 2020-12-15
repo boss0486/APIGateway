@@ -33,10 +33,6 @@ public class InternalNotifization {
         return new JsonResult(status.value(), message);
     }
 
-    public JsonResult NotFoundResult(String message) {
-        return new JsonResult(HttpStatus.NOT_FOUND.value(), message);
-    }
-
     public JsonResult ErrorResult(String message) {
         return new JsonResult(HttpStatus.SERVICE_UNAVAILABLE.value(), message);
     }
