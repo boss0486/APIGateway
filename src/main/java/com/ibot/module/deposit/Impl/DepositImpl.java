@@ -12,16 +12,18 @@ import com.ibot.library.ValidData;
 import com.ibot.module.base.entities.ApiResultModel;
 import com.ibot.module.deposit.entities.ApiDepositModel;
 import com.ibot.module.deposit.entities.DepositCard;
+import com.ibot.module.deposit.entities.DepositConfig;
 import com.ibot.module.deposit.entities.DepositTopupModel;
+import com.ibot.module.deposit.repository.DepositConfigRepository;
 import com.ibot.module.deposit.repository.DepositRepository;
+import com.ibot.module.deposit.services.IDepositService;
 import com.ibot.module.type.OptionListModel;
-import com.ibot.module.type.InternetProvider;
+import com.ibot.module.type.CardProvider;
 import com.ibot.notifization.JsonResult;
 import com.ibot.notifization.MessageText;
 import com.ibot.notifization.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ibot.module.deposit.services.IDepositService;
 import com.ibot.module.type.EnumService;
 
 /**
@@ -33,24 +35,25 @@ public class DepositImpl implements IDepositService {
 
     @Autowired
     private DepositRepository depositRepository;
- 
+
+    @Autowired
+    private DepositConfigRepository depositConfigRepository; 
+    
     @Override
     public JsonResult Topup(DepositTopupModel model) {
         //
         if (model == null) {
             return Notification.Invalid(MessageText.Invalid);
         }
-        
-       
+
         //  model
         String gameCode = model.gameCode;
         String loginId = model.loginId;
-        int cardType = model.cardType; 
+        int cardType = model.cardType;
         int cardValue = model.cardValue;
         String cardCode = model.cardCode;
         String cardSerial = model.cardSerial;
 
-          
         //
         if (!ValidData.patternRoll.matcher(cardSerial).matches()) {
             return Notification.Invalid("Mã Serial thẻ nạp không hợp lệ");
@@ -69,18 +72,20 @@ public class DepositImpl implements IDepositService {
             return Notification.Invalid("Thẻ nạp đã được sử dụng");
         }
         //
-        InternetProvider internetProvider = new InternetProvider();
-        OptionListModel intProviderOption = internetProvider.InternetProviderData.stream().filter(m -> m.id == cardType).findAny().orElse(null);
+        CardProvider internetProvider = new CardProvider();
+        OptionListModel intProviderOption = internetProvider.CardTypeData.stream().filter(m -> m.id == cardType).findAny().orElse(null);
         //
         if (intProviderOption == null) {
             return Notification.Invalid(MessageText.Invalid);
         }
         //
-
-        int compProviderId = 1;
-        
+        DepositConfig depositConfig = depositConfigRepository.findbyGameCode(gameCode);
+        if (depositConfig == null) {
+            return Notification.Invalid("Mã game chưa được cấu hình");
+        }
+        int compProviderId = depositConfig.getCompProviderID();
         ApiResultModel result;
-        switch (compProviderId) {
+        switch (depositConfig.getCompProviderID()) {
             case 1: // COMP 01
                 result = comp01Topup(model);
                 break;
@@ -146,16 +151,17 @@ public class DepositImpl implements IDepositService {
         String password = "T-Password";
         String secretkey = "T-Secretkey";
 
-        InternetProvider internetProvider = new InternetProvider();
-        OptionListModel intProviderOption = internetProvider.InternetProviderData.stream().filter(m -> m.id == cardType).findAny().orElse(null);
+        CardProvider cardProvider = new CardProvider();
+        OptionListModel cardOption = cardProvider.CardTypeData.stream().filter(m -> m.id == cardType).findAny().orElse(null);
         //
-        String signatureHash = Security.getMd5(intProviderOption.code + cardCode + cardSerial + partnerName + password + secretkey);
+        String cardtype = cardOption.code;
+        String signatureHash = Security.getMd5(cardtype + cardCode + cardSerial + partnerName + password + secretkey);
         // create param
         ApiDepositModel apiCardDeposit = new ApiDepositModel();
         apiCardDeposit.partnerName = partnerName;
         apiCardDeposit.password = password;
         apiCardDeposit.secretkey = secretkey;
-        apiCardDeposit.cardtype = intProviderOption.code; // VT or MOBILE or VINA
+        apiCardDeposit.cardtype = cardtype; // VT or MOBILE or VINA
         apiCardDeposit.cardValue = cardValue;
         apiCardDeposit.cardSerial = cardSerial;
         apiCardDeposit.cardCode = cardCode;
@@ -176,5 +182,5 @@ public class DepositImpl implements IDepositService {
     private ApiResultModel comp03Topup(DepositTopupModel model) {
         return new ApiResultModel(EnumService.APICompProviderEnum.COMP03, -1, MessageText.NotService);
     }
- 
+
 }

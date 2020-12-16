@@ -5,6 +5,7 @@
  */
 package com.ibot.application.controller;
 
+import com.ibot.module.deposit.Impl.DepositImpl;
 import com.ibot.module.deposit.entities.ApiDepositModel;
 import com.ibot.module.deposit.entities.DepositTopupModel;
 import com.ibot.notifization.JsonResult;
@@ -25,7 +26,7 @@ import com.ibot.module.deposit.services.IDepositService;
 public class DepositController {
 
     @Autowired
-    IDepositService cardDepositService;
+    IDepositService depositService;
 
     @ResponseBody
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -36,10 +37,8 @@ public class DepositController {
     //@PostMapping(value = "/api/deposit")
     @ResponseBody
     @RequestMapping(value = "/deposit", method = RequestMethod.POST)
-    public JsonResult Deposit(@RequestBody DepositTopupModel model) {
-//        IDepositService cardDepositService=new DepositServiceImpl();
-        return cardDepositService.Topup(model);
-
+    public JsonResult Deposit(@RequestBody DepositTopupModel model) { 
+        return depositService.Topup(model);
     }
 
 }

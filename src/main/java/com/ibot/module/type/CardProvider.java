@@ -12,21 +12,13 @@ import java.util.List;
  *
  * @author Allen
  */
-public class InternetProvider {
+public class CardProvider {
 
     public static final String VIETTEL = "VT";
     public static final String VINA_PHONE = "MOBI";
-    public static final String MOBI_PHONE = "VINA";
-
-//
-//    public List<IntProviderOption> InternetProviderData() {
-//        List<IntProviderOption> intProviderOptions = new ArrayList<>();
-//        intProviderOptions.add(new IntProviderOption(1, "VT", "Viettel"));
-//        intProviderOptions.add(new IntProviderOption(2, "MOBI", "Mobi Phone"));
-//        intProviderOptions.add(new IntProviderOption(3, "VINA", "Vina Phone"));
-//        return intProviderOptions;
-//    }
-    public List<OptionListModel> InternetProviderData = Arrays.asList(
+    public static final String MOBI_PHONE = "VINA"; 
+    //
+    public List<OptionListModel> CardTypeData = Arrays.asList(
             new OptionListModel(1, "VT", "Viettel"),
             new OptionListModel(2, "MOBI", "Mobi Phone"),
             new OptionListModel(3, "VINA", "Vina Phone")

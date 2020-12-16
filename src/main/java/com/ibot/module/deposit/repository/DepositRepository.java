@@ -15,12 +15,13 @@ import org.springframework.data.repository.query.Param;
  * @author Allen
  */
 public interface DepositRepository extends JpaRepository<DepositCard, String> {
-//    DepositCard findOneByCode(String id);
+
     @Query(value = "SELECT TOP 1 * FROM App_Deposit WHERE CardSerial=:CardSerial", nativeQuery = true)
-    public DepositCard findbySerial(@Param("CardSerial") String cardSerial); 
+    public DepositCard findbySerial(@Param("CardSerial") String cardSerial);
+
     //
     @Query(value = "SELECT TOP 1 * FROM app_deposit WHERE CardSerial = :CardSerial AND CardType = :CardType", nativeQuery = true)
-    public DepositCard findbySerial(@Param("CardSerial") String cardSerial,@Param("CardType") int cardType);
+    public DepositCard findbySerial(@Param("CardSerial") String cardSerial, @Param("CardType") int cardType);
 
     //
     @Query(value = "SELECT TOP 1 * FROM app_deposit WHERE CardCode=:CardCode", nativeQuery = true)
@@ -31,5 +32,3 @@ public interface DepositRepository extends JpaRepository<DepositCard, String> {
     public DepositCard findbyCardCode(String cardCode, int cardType);
     //
 }
-
- 

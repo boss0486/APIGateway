@@ -28,17 +28,33 @@ public class DepositConfig extends EntityModel implements Serializable {
     @Column(name = "ID", length = 36, nullable = false)
     private String id;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @Column(name = "GameCode", length = 20, nullable = false)
+    private String GameCode;
+
+    @Column(name = "CompProviderID", nullable = false)
+    private int CompProviderID;
 
     public String getId() {
         return id;
     }
-    @Column(name = "GameCode", length = 20, nullable = false)
-    private String GameCode;
 
-    @Column(name = "CompProviderID")
-    private int CompProviderID;
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public String getGameCode() {
+        return GameCode;
+    }
+
+    public void setGameCode(String GameCode) {
+        this.GameCode = GameCode;
+    }
+
+    public int getCompProviderID() {
+        return CompProviderID;
+    }
+
+    public void setCompProviderID(int CompProviderID) {
+        this.CompProviderID = CompProviderID;
+    }
 }
