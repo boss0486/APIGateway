@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.deposit.entities;
+package com.ibot.module.entities;
 
 import com.ibot.module.base.entities.EntityModel;
 import java.io.Serializable;
@@ -18,16 +18,31 @@ import javax.persistence.Id;
  * @author Allen
  */
 @Entity
-@Table(name = "App_Deposit")
-public class DepositCard extends EntityModel implements Serializable {
+@Table(name = "App_CardTransaction")
+public class CardTransaction extends EntityModel implements Serializable {
 
-    public DepositCard() {
+    public CardTransaction() {
         this.id = UUID.randomUUID().toString().toLowerCase();
     }
     @Id
-    @Column(name = "ID", length = 36, nullable = false)
+    @Column(name = "ID", length = 40, nullable = false)
     private String id;
+    @Column(name = "PartnerCode", nullable = false)
+    private String PartnerCode;
+    @Column(name = "LoginID", length = 40, nullable = false)
+    private String loginId;
+    @Column(name = "CardType")
+    private int cardType;
+    @Column(name = "CardSerial", length = 20, nullable = false)
+    private String cardSerial;
+    @Column(name = "CardCode", length = 20, nullable = false)
+    private String cardCode;
+    @Column(name = "CardValue")
+    private int cardValue;
+    @Column(name = "TransactionStatus")
+    private int transactionStatus;
 
+    // **************************************************************************
     public void setId(String id) {
         this.id = id;
     }
@@ -35,29 +50,15 @@ public class DepositCard extends EntityModel implements Serializable {
     public String getId() {
         return id;
     }
-    @Column(name = "CompProviderID", nullable = false)
-    private int CompProviderID;
-    @Column(name = "LoginID", length = 36, nullable = false)
-    private String loginId;
-    @Column(name = "CardType")
-    private int cardType;
-    @Column(name = "CardValue")
-    private int cardValue;
-    @Column(name = "CardSerial", length = 20, nullable = false)
-    private String cardSerial;
-    @Column(name = "CardCode", length = 20, nullable = false)
-    private String cardCode;
-    @Column(name = "TransactionStatus")
-    private int transactionStatus;
 
-    // **************************************************************************
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+    public String getPartnerCode() {
+        return PartnerCode;
+    }
+
+    public void setPartnerCode(String PartnerCode) {
+        this.PartnerCode = PartnerCode;
+    }
+
     public String getLoginId() {
         return loginId;
     }
@@ -72,14 +73,6 @@ public class DepositCard extends EntityModel implements Serializable {
 
     public void setCardType(int cardType) {
         this.cardType = cardType;
-    }
-
-    public int getCardValue() {
-        return cardValue;
-    }
-
-    public void setCardValue(int cardValue) {
-        this.cardValue = cardValue;
     }
 
     public String getCardSerial() {
@@ -98,6 +91,14 @@ public class DepositCard extends EntityModel implements Serializable {
         this.cardCode = cardCode;
     }
 
+    public int getCardValue() {
+        return cardValue;
+    }
+
+    public void setCardValue(int cardValue) {
+        this.cardValue = cardValue;
+    }
+
     public int getTransactionStatus() {
         return transactionStatus;
     }
@@ -106,11 +107,4 @@ public class DepositCard extends EntityModel implements Serializable {
         this.transactionStatus = transactionStatus;
     }
 
-    public int getCompProviderID() {
-        return CompProviderID;
-    }
-
-    public void setCompProviderID(int compProviderId) {
-        this.CompProviderID = compProviderId;
-    }
 }

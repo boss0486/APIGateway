@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.deposit.entities;
+package com.ibot.module.entities;
 
 /**
  *
  * @author Allen
  */
-public class DepositTopupModel {
+public class TopupModel {
 
     public String gameCode;
     public String loginId;

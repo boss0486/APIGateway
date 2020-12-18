@@ -19,17 +19,31 @@ import javax.persistence.Temporal;
 
 @MappedSuperclass // apply for all entity class
 public class EntityModel {
-
-    @Column(name = "CreatedBy", length = 36, nullable = true)
+    @Column(name = "LanguageID", length = 40, nullable = true)
+    private String languageId;
+    @Column(name = "Enabled")
+    private int enabled;
+    @Column(name = "CreatedBy", length = 40, nullable = true)
     private String createdBy;
     @Column(name = "CreatedDate")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdDate;
-    @Column(name = "ModifiedBy", length = 36, nullable = true)
-    private String modifiedBy;
-    @Column(name = "ModifiedDate")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date modifiedDate;
+
+    public String getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(String languageId) {
+        this.languageId = languageId;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -45,22 +59,5 @@ public class EntityModel {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-    
+    }    
 }

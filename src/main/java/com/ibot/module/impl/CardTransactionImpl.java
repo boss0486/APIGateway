@@ -3,20 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.deposit.Impl;
+package com.ibot.module.impl;
 
 import com.google.gson.Gson;
 import com.ibot.datawsdl.soapxml.APIRechargeService;
 import com.ibot.library.Security;
 import com.ibot.library.ValidData;
 import com.ibot.module.base.entities.ApiResultModel;
-import com.ibot.module.deposit.entities.ApiDepositModel;
-import com.ibot.module.deposit.entities.DepositCard;
-import com.ibot.module.deposit.entities.DepositConfig;
-import com.ibot.module.deposit.entities.DepositTopupModel;
-import com.ibot.module.deposit.repository.DepositConfigRepository;
-import com.ibot.module.deposit.repository.DepositRepository;
-import com.ibot.module.deposit.services.IDepositService;
+import com.ibot.module.entities.ApiTopupModel;
+import com.ibot.module.entities.CardTransaction;
+import com.ibot.module.entities.CardDepositConfig;
+import com.ibot.module.entities.TopupModel;
 import com.ibot.module.type.OptionListModel;
 import com.ibot.module.type.CardProvider;
 import com.ibot.notifization.JsonResult;
@@ -25,27 +22,33 @@ import com.ibot.notifization.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ibot.module.type.EnumService;
+import com.ibot.module.services.ICardTranstionService;
+import com.ibot.module.repository.CardTransactionRepository;
+import com.ibot.module.repository.CardDepositConfigRepository;
+import com.ibot.module.services.ICardHistoryService;
 
 /**
  *
  * @author Allen
  */
 @Service
-public class DepositImpl implements IDepositService {
+public class CardTransactionImpl implements ICardTranstionService {
 
     @Autowired
-    private DepositRepository depositRepository;
+    private CardTransactionRepository cardTransactionRepository;
 
     @Autowired
-    private DepositConfigRepository depositConfigRepository; 
-    
+    private CardDepositConfigRepository cardDepositConfigRepository;
+
+    @Autowired
+    private ICardHistoryService cardHistoryService;
+
     @Override
-    public JsonResult Topup(DepositTopupModel model) {
+    public JsonResult Topup(TopupModel model) {
         //
         if (model == null) {
             return Notification.Invalid(MessageText.Invalid);
         }
-
         //  model
         String gameCode = model.gameCode;
         String loginId = model.loginId;
@@ -67,7 +70,7 @@ public class DepositImpl implements IDepositService {
             return Notification.Invalid("Giá trị thẻ nạp không hợp lệ");
         }
         //
-        DepositCard depositCard = depositRepository.findbySerial(cardSerial, cardType);
+        CardTransaction depositCard = cardTransactionRepository.findbySerial(cardSerial, cardType);
         if (depositCard != null) {
             return Notification.Invalid("Thẻ nạp đã được sử dụng");
         }
@@ -79,42 +82,42 @@ public class DepositImpl implements IDepositService {
             return Notification.Invalid(MessageText.Invalid);
         }
         //
-        DepositConfig depositConfig = depositConfigRepository.findbyGameCode(gameCode);
+        CardDepositConfig depositConfig = cardDepositConfigRepository.findbyGameCode(gameCode);
         if (depositConfig == null) {
-            return Notification.Invalid("Mã game chưa được cấu hình");
+            return Notification.Invalid("Cổng thanh toán chưa được cấu hình");
         }
-        int compProviderId = depositConfig.getCompProviderID();
+        String partnerCode = depositConfig.getPartnerCode();
         ApiResultModel result;
-        switch (depositConfig.getCompProviderID()) {
-            case 1: // COMP 01
+        switch (partnerCode) {
+            case "C001": // COMP 01
                 result = comp01Topup(model);
                 break;
-            case 2: // COMP 02
+            case "C002": // COMP 02
                 result = comp02Topup(model);
                 break;
-            case 3: // COMP 03
+            case "C003": // COMP 03
                 result = comp03Topup(model);
                 break;
             default:
-                result = new ApiResultModel(EnumService.APICompProviderEnum.NONE, -1, MessageText.NotService);
+                result = new ApiResultModel(EnumService.APIPartnerEnum.NONE, -1, MessageText.NotService);
                 break;
         }
         // 
-        EnumService.APICompProviderEnum aPICompProviderEnum = result.getCompEnum();
-        if (aPICompProviderEnum == EnumService.APICompProviderEnum.NONE) {
+        EnumService.APIPartnerEnum aPICompProviderEnum = result.getCompEnum();
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.NONE) {
             return Notification.NotFound("Không tìm thấy nhà cung cấp dịch vụ");
         }
-        if (aPICompProviderEnum == EnumService.APICompProviderEnum.COMP01) {
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP01) {
             if (result.getCode() != 1) {
                 return Notification.Invalid(result.getMessage());
             }
         }
-        if (aPICompProviderEnum == EnumService.APICompProviderEnum.COMP02) {
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP02) {
             if (result.getCode() != 1) {
                 return Notification.Error(result.getMessage());
             }
         }
-        if (aPICompProviderEnum == EnumService.APICompProviderEnum.COMP03) {
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP03) {
             if (result.getCode() != 1) {
                 return Notification.Error(result.getMessage());
             }
@@ -122,26 +125,37 @@ public class DepositImpl implements IDepositService {
         //
         int transactionStatus = result.getCode();
         // save data 
-        DepositCard deposit = new DepositCard();
-        deposit.setCompProviderID(compProviderId);
-        deposit.setLoginId(loginId);
-        deposit.setCardType(cardType);
-        deposit.setCardValue(cardValue);
-        deposit.setCardCode(cardCode);
-        deposit.setCardSerial(cardSerial);
-        deposit.setTransactionStatus(transactionStatus);
-        DepositCard depositRs = this.depositRepository.save(deposit);
+        CardTransaction cardTransaction = new CardTransaction();
+        cardTransaction.setPartnerCode(partnerCode);
+        cardTransaction.setLoginId(loginId);
+        cardTransaction.setCardType(cardType);
+        cardTransaction.setCardValue(cardValue);
+        cardTransaction.setCardCode(cardCode);
+        cardTransaction.setCardSerial(cardSerial);
+        cardTransaction.setTransactionStatus(transactionStatus);
+        CardTransaction depositRs = this.cardTransactionRepository.save(cardTransaction);
         if (depositRs == null) {
             // log error system
             System.out.println("Error: lỗi lưu data");
         }
+        // history 
+
+        //CardDepositHistoryImpl cardDepositHistoryImpl = new CardDepositHistoryImpl();
+        cardHistoryService.loggedCardDepositHistory(
+                "Gd nạp tiền cổng thanh toán: " + gameCode + ".",
+                "",
+                depositRs.getId(),
+                loginId,
+                cardValue
+        );
+
         // 
         Gson gson = new Gson();
         String jsonResult = gson.toJson(result);
         return Notification.Success(MessageText.Success + "::" + jsonResult);
     }
 
-    private ApiResultModel comp01Topup(DepositTopupModel model) {
+    private ApiResultModel comp01Topup(TopupModel model) {
         int cardType = model.cardType;
         int cardValue = model.cardValue;
         String cardCode = model.cardCode;
@@ -157,7 +171,7 @@ public class DepositImpl implements IDepositService {
         String cardtype = cardOption.code;
         String signatureHash = Security.getMd5(cardtype + cardCode + cardSerial + partnerName + password + secretkey);
         // create param
-        ApiDepositModel apiCardDeposit = new ApiDepositModel();
+        ApiTopupModel apiCardDeposit = new ApiTopupModel();
         apiCardDeposit.partnerName = partnerName;
         apiCardDeposit.password = password;
         apiCardDeposit.secretkey = secretkey;
@@ -175,12 +189,12 @@ public class DepositImpl implements IDepositService {
         return jsonRqModel;
     }
 
-    private ApiResultModel comp02Topup(DepositTopupModel model) {
-        return new ApiResultModel(EnumService.APICompProviderEnum.COMP02, -1, MessageText.NotService);
+    private ApiResultModel comp02Topup(TopupModel model) {
+        return new ApiResultModel(EnumService.APIPartnerEnum.COMP02, -1, MessageText.NotService);
     }
 
-    private ApiResultModel comp03Topup(DepositTopupModel model) {
-        return new ApiResultModel(EnumService.APICompProviderEnum.COMP03, -1, MessageText.NotService);
+    private ApiResultModel comp03Topup(TopupModel model) {
+        return new ApiResultModel(EnumService.APIPartnerEnum.COMP03, -1, MessageText.NotService);
     }
 
 }

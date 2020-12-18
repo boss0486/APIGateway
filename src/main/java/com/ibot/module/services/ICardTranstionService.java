@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.type;
+package com.ibot.module.services;
+
+import com.ibot.module.entities.TopupModel;
+import com.ibot.notifization.JsonResult;
 
 /**
  *
  * @author Allen
  */
-public class EnumService {
+public interface ICardTranstionService {
 
-    // mapping with partner
-    public enum APIPartnerEnum {
-        NONE, COMP01, COMP02, COMP03
-    }
+    JsonResult Topup(TopupModel model);
 }

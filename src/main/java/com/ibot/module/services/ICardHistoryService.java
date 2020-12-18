@@ -3,16 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ibot.module.type;
-
+package com.ibot.module.services;
 /**
  *
  * @author Allen
  */
-public class EnumService {
-
-    // mapping with partner
-    public enum APIPartnerEnum {
-        NONE, COMP01, COMP02, COMP03
-    }
+public interface ICardHistoryService {
+    void loggedCardDepositHistory(String title, String summary, String transactionId, String userId, double amount);
 }

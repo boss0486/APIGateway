@@ -5,7 +5,7 @@
  */
 package com.ibot.module.base.entities;
 
-import com.ibot.module.type.EnumService.APICompProviderEnum;
+import com.ibot.module.type.EnumService.APIPartnerEnum;
 
 /**
  *
@@ -13,15 +13,15 @@ import com.ibot.module.type.EnumService.APICompProviderEnum;
  */
 public class ApiResultModel {
 
-    private APICompProviderEnum compEnum;
+    private APIPartnerEnum compEnum;
     private int code;
     private String message;
 
-    public APICompProviderEnum getCompEnum() {
+    public APIPartnerEnum getCompEnum() {
         return compEnum;
     }
 
-    public void setCompEnum(APICompProviderEnum compEnum) {
+    public void setCompEnum(APIPartnerEnum compEnum) {
         this.compEnum = compEnum;
     }
 
@@ -41,7 +41,7 @@ public class ApiResultModel {
         this.message = message;
     }
 
-    public ApiResultModel(APICompProviderEnum compEnum, int code, String message) {
+    public ApiResultModel(APIPartnerEnum compEnum, int code, String message) {
         this.compEnum = compEnum;
         this.code = code;
         this.message = message;

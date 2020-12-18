@@ -23,7 +23,7 @@ public class CardProvider {
             new OptionListModel(2, "MOBI", "Mobi Phone"),
             new OptionListModel(3, "VINA", "Vina Phone")
     );
-    public List<OptionListModel> CompProviderData = Arrays.asList(
+    public List<OptionListModel> PartnerData = Arrays.asList(
             new OptionListModel(1, "COMP01", "Partner 01"),
             new OptionListModel(2, "COMP01", "Partner 02"),
             new OptionListModel(3, "COMP01", "Partner 03")

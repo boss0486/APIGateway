@@ -5,9 +5,8 @@
  */
 package com.ibot.application.controller;
 
-import com.ibot.module.deposit.Impl.DepositImpl;
-import com.ibot.module.deposit.entities.ApiDepositModel;
-import com.ibot.module.deposit.entities.DepositTopupModel;
+import com.ibot.module.entities.ApiTopupModel;
+import com.ibot.module.entities.TopupModel;
 import com.ibot.notifization.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ibot.module.deposit.services.IDepositService;
+import com.ibot.module.services.ICardTranstionService;
 
 /**
  *
@@ -26,19 +25,19 @@ import com.ibot.module.deposit.services.IDepositService;
 public class DepositController {
 
     @Autowired
-    IDepositService depositService;
+    ICardTranstionService iCardTranstionService;
 
     @ResponseBody
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public ApiDepositModel Test01(@RequestBody ApiDepositModel model) {
+    @RequestMapping(value = "api/test", method = RequestMethod.POST)
+    public ApiTopupModel Test01(@RequestBody ApiTopupModel model) {
         return model;
     }
 
     //@PostMapping(value = "/api/deposit")
     @ResponseBody
-    @RequestMapping(value = "/deposit", method = RequestMethod.POST)
-    public JsonResult Deposit(@RequestBody DepositTopupModel model) { 
-        return depositService.Topup(model);
+    @RequestMapping(value = "api/transaction/topup", method = RequestMethod.POST)
+    public JsonResult ApiTopup(@RequestBody TopupModel model) { 
+        return iCardTranstionService.Topup(model);
     }
 
 }

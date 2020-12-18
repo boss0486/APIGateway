@@ -4,22 +4,22 @@
  * and open the template in the editor.
  */
 package com.ibot.application;
-import com.ibot.module.deposit.entities.DepositCard;
-import com.ibot.module.deposit.repository.DepositRepository;
+import com.ibot.module.entities.CardDepositHistory;
+import com.ibot.module.entities.CardTransaction;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-
+ 
 /**
  *
  * @author Allen
  */
 @SpringBootApplication
-@EntityScan(basePackageClasses = {DepositCard.class})  // scan JPA entities
-@EnableJpaRepositories({"com.ibot.module.deposit.repository"})
+@EntityScan(basePackageClasses = {CardTransaction.class,CardDepositHistory.class })  // scan JPA entities
+ 
+@EnableJpaRepositories({"com.ibot.module.repository"})
 //@EnableJpaRepositories(repositoryFactoryBeanClass=DepositRepository.class)
 @ComponentScan({"com.ibot.*"})
 public class Application {

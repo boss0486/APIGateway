@@ -93,12 +93,12 @@ public class APIRechargeService {
             }
             // end demo  
             if (transStatus == 1) {
-                return new ApiResultModel(EnumService.APICompProviderEnum.COMP01, 1, "OK : " + webServiceResponse);
+                return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, 1, "OK : " + webServiceResponse);
             }
-            return new ApiResultModel(EnumService.APICompProviderEnum.COMP01, -1, MessageText.NotService);
+            return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, -1, MessageText.NotService);
 
         } catch (IOException | DOMException e) {
-            return new ApiResultModel(EnumService.APICompProviderEnum.COMP01, -1, MessageText.NotService);
+            return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, -1, MessageText.NotService);
         }
     }
 
