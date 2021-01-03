@@ -9,12 +9,9 @@ package com.ibot.module.entities;
  *
  * @author Allen
  */
-public class TopupModel { 
-    public String requestId;
-    public String gameCode;
-    public String loginId;
-    public int cardType;
-    public int cardValue;
-    public String cardSerial;
-    public String cardCode;
+public class Api01TopupResult { 
+    public int status ;
+    public String message;
+    public String tran_id;
 }
+ 

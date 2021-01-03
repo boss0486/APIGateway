@@ -5,7 +5,7 @@
  */
 package com.ibot.application.controller;
 
-import com.ibot.module.entities.ApiTopupModel;
+import com.ibot.module.entities.Api01TopupRequest;
 import com.ibot.module.entities.TopupModel;
 import com.ibot.notifization.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class DepositController {
 
     @ResponseBody
     @RequestMapping(value = "api/test", method = RequestMethod.POST)
-    public ApiTopupModel Test01(@RequestBody ApiTopupModel model) {
+    public Api01TopupRequest Test01(@RequestBody Api01TopupRequest model) {
         return model;
     }
 

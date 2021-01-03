@@ -16,6 +16,7 @@ public class ApiResultModel {
     private APIPartnerEnum compEnum;
     private int code;
     private String message;
+    private Object data;
 
     public APIPartnerEnum getCompEnum() {
         return compEnum;
@@ -41,10 +42,24 @@ public class ApiResultModel {
         this.message = message;
     }
 
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
     public ApiResultModel(APIPartnerEnum compEnum, int code, String message) {
         this.compEnum = compEnum;
         this.code = code;
         this.message = message;
     }
 
+    public ApiResultModel(APIPartnerEnum compEnum, int code, String message, Object data) {
+        this.compEnum = compEnum;
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
 }
