@@ -74,11 +74,19 @@ public class ApiRechargeService {
         // Dữ liệu đính kèm theo yêu cầu.
         HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
         // Gửi yêu cầu với phương thức POST. 
-        ResponseEntity<String> result1 = restTemplate.postForEntity(uri, requestBody, String.class);
-        Gson gson = new Gson();
-        Api01TopupResult api01TopupResult = gson.fromJson(result1.getBody(), Api01TopupResult.class); 
+        //ResponseEntity<String> result1 = restTemplate.postForEntity(uri, requestBody, String.class);
+        //Gson gson = new Gson();
+        //Api01TopupResult api01TopupResult = gson.fromJson(result1.getBody(), Api01TopupResult.class); 
         //
-        return api01TopupResult;
+        Api01TopupResult api01TopupRequest = restTemplate.postForObject(uri, requestBody, Api01TopupResult.class);
+        //
+        if (api01TopupRequest != null) {
+            System.out.println("::" + api01TopupRequest.getTransID());
+        }
+        
+        
+        
+        return null;
     }
     // XML ################################################################################################################
 

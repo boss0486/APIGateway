@@ -197,7 +197,7 @@ public class CardTransactionImpl implements ICardTranstionService {
         if (api01TopupResult == null) {
             return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageText.NotService);
         }
-        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), api01TopupResult.message, api01TopupResult.data);
+        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), api01TopupResult.message, api01TopupResult.transID);
     }
 //    private ApiResultModel comp01Topup(TopupModel model) {
 //        int cardType = model.cardType;
