@@ -5,21 +5,17 @@
  */
 package com.ibot.module.entities;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Allen
  */
-public class Api01TopupResult { 
+public class Api01TopupResult implements Serializable{ 
     public int status ;
     public String message;
     public String transID;
-
-    public Api01TopupResult(int status, String message, String transID) {
-        this.status = status;
-        this.message = message;
-        this.transID = transID;
-    }
-
+ 
     public int getStatus() {
         return status;
     }

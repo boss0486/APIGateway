@@ -29,6 +29,13 @@ public class EntityModel {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date createdDate;
 
+    public EntityModel() {
+        this.createdDate =  new  Date();
+        this.createdBy = "api-logged";
+        this.languageId = "en";
+    }
+
+    
     public String getLanguageId() {
         return languageId;
     }

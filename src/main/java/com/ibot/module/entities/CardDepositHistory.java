@@ -7,7 +7,6 @@ package com.ibot.module.entities;
 
 import com.ibot.module.base.entities.EntityModel;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;

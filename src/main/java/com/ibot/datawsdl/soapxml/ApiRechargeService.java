@@ -5,13 +5,9 @@
  */
 package com.ibot.datawsdl.soapxml;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.ibot.module.base.entities.ApiResultModel;
 import com.ibot.module.entities.Api01TopupRequest;
 import com.ibot.module.entities.Api01TopupResult;
-import com.ibot.module.entities.Test01;
 import com.ibot.module.type.EnumService;
 import com.ibot.notifization.MessageText;
 import java.io.BufferedReader;
@@ -20,15 +16,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -63,30 +65,39 @@ public class ApiRechargeService {
     }
 
     public Api01TopupResult apiCom01_Topup(Api01TopupRequest model) {
-        // call api service
-
-//       String uri = "https://nap3s-6d9472890e72.banglangtim.club/api/recharge";
+        // String uri = "https://nap3s-6d9472890e72.banglangtim.club/api/recharge";
         String uri = "http://localhost:51759/api/weatherforecast/Recharge";
+        // create headers
         HttpHeaders headers = new HttpHeaders();
+        // set `content-type` header
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        // set `accept` header
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        //
         RestTemplate restTemplate = new RestTemplate();
-        // Dữ liệu đính kèm theo yêu cầu.
         HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
-        // Gửi yêu cầu với phương thức POST. 
-        //ResponseEntity<String> result1 = restTemplate.postForEntity(uri, requestBody, String.class);
-        //Gson gson = new Gson();
-        //Api01TopupResult api01TopupResult = gson.fromJson(result1.getBody(), Api01TopupResult.class); 
+        //ResponseEntity<Api01TopupResult> response = restTemplate.postForEntity(uri, requestBody, Api01TopupResult.class);
+
+        MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
+        map.add("api_key", model.api_key);
+        map.add("card_seri", model.card_seri);
+        map.add("card_code", model.card_code);
+        map.add("request_id", model.request_id);
+        map.add("card_amount", model.card_amount +"");
+        map.add("card_type", model.card_type);
+        map.add("signature", model.signature);
         //
-        Api01TopupResult api01TopupRequest = restTemplate.postForObject(uri, requestBody, Api01TopupResult.class);
-        //
-        if (api01TopupRequest != null) {
-            System.out.println("::" + api01TopupRequest.getTransID());
+         RequestEntity request = RequestEntity.post(URI.create("http://localhost:51759/api/weatherforecast/Recharge"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .accept(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(map);
+        ResponseEntity<Api01TopupResult> response = restTemplate.exchange(request, Api01TopupResult.class);
+        // check response status code
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            return null;
         }
-        
-        
-        
-        return null;
     }
     // XML ################################################################################################################
 

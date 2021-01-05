@@ -21,7 +21,7 @@ public class Notification {
         return internalNotifization.SuccessResult(message);
     }
 
-    public static JsonDataResult Success(String message, Object data) {
+    public static JsonResult Success(String message, Object data) {
         InternalNotifization internalNotifization = new InternalNotifization();
         return internalNotifization.SuccessResult(message, data);
     }

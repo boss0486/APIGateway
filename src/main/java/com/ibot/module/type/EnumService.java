@@ -15,4 +15,8 @@ public class EnumService {
     public enum APIPartnerEnum {
         NONE, COMP01, COMP02, COMP03
     }
+    
+    public enum APITransactionEnum {
+        NONE, OK
+    }
 }

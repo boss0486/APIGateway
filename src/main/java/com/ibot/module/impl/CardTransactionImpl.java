@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.ibot.module.impl;
- 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ibot.datawsdl.soapxml.ApiRechargeService;
 import com.ibot.library.Security;
@@ -109,37 +109,6 @@ public class CardTransactionImpl implements ICardTranstionService {
             return Notification.Error(result.getMessage());
         }
         // 
-        EnumService.APIPartnerEnum aPICompProviderEnum = result.getCompEnum();
-        if (aPICompProviderEnum == EnumService.APIPartnerEnum.NONE) {
-            return Notification.NotFound("Không tìm thấy nhà cung cấp dịch vụ");
-        }
-        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP01) {
-            Api01TopupResult data = (Api01TopupResult) result.getData();
-            if (data.status == 0) {
-                return Notification.Success(result.getMessage());
-            } else {
-                return Notification.Invalid(result.getMessage());
-            }
-        }
-        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP02) {
-            Api01TopupResult data = (Api01TopupResult) result.getData();
-            if (data.status == 0) {
-                return Notification.Success(result.getMessage());
-            } else {
-                return Notification.Invalid(result.getMessage());
-            }
-        }
-        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP03) {
-           Api01TopupResult data = (Api01TopupResult) result.getData();
-            if (data.status == 0) {
-                return Notification.Success(result.getMessage());
-            } else {
-                return Notification.Invalid(result.getMessage());
-            }
-        } 
-        //
-        int transactionStatus = result.getCode();
-        // save data 
         CardTransaction cardTransaction = new CardTransaction();
         cardTransaction.setPartnerCode(partnerCode);
         cardTransaction.setLoginId(loginId);
@@ -147,25 +116,35 @@ public class CardTransactionImpl implements ICardTranstionService {
         cardTransaction.setCardValue(cardValue);
         cardTransaction.setCardCode(cardCode);
         cardTransaction.setCardSerial(cardSerial);
-        cardTransaction.setTransactionStatus(transactionStatus);
-        CardTransaction depositRs = this.cardTransactionRepository.save(cardTransaction); 
-        if (depositRs != null) {
-            // log error system 
-            String transId = depositRs.getId();
-            cardHistoryService.loggedCardDepositHistory(
-                    "Gd nạp tiền cổng thanh toán: " + gameCode + ".",
-                    "",
-                    transId,
-                    loginId,
-                    cardValue
-            );
-            return Notification.Success(result.getMessage());
+        cardTransaction.setTransactionStatus(0);
+        //
+        EnumService.APIPartnerEnum aPICompProviderEnum = result.getCompEnum();
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.NONE) {
+            return Notification.NotFound("Không tìm thấy nhà cung cấp dịch vụ");
         }
+         if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP01) {
+             Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
+            // save data
+            TransactionSave(cardTransaction, gameCode);
+            return Notification.Success(result.getMessage(), api01TopupResult);
+        }
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP02) {
+             Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
+            // save data
+            TransactionSave(cardTransaction, gameCode);
+            return Notification.Success(result.getMessage(), api01TopupResult);
+        }
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP03) {
+            Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
+            // save data
+            TransactionSave(cardTransaction, gameCode);
+            return Notification.Success(result.getMessage(), api01TopupResult);
+        }  
         System.out.println("Error: lỗi lưu data");
         return Notification.Error(result.getMessage());
     }
 
-    private ApiResultModel comp01Topup(TopupModel model)  {
+    private ApiResultModel comp01Topup(TopupModel model) {
         // model
         String requestId = model.requestId;
         int cardType = model.cardType;
@@ -194,10 +173,10 @@ public class CardTransactionImpl implements ICardTranstionService {
         ApiRechargeService apiRechargeService = new ApiRechargeService();
 
         Api01TopupResult api01TopupResult = apiRechargeService.apiCom01_Topup(api01TopupRequest);
-        if (api01TopupResult == null) {
-            return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageText.NotService);
+        if (api01TopupResult != null) {
+            return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), MessageText.Success, api01TopupResult);
         }
-        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), api01TopupResult.message, api01TopupResult.transID);
+        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageText.NotService);
     }
 //    private ApiResultModel comp01Topup(TopupModel model) {
 //        int cardType = model.cardType;
@@ -240,5 +219,30 @@ public class CardTransactionImpl implements ICardTranstionService {
     private ApiResultModel comp03Topup(TopupModel model) {
         return new ApiResultModel(EnumService.APIPartnerEnum.COMP03, -1, MessageText.NotService);
     }
+    // SAVE DATA TO DB#############################################################################################################
 
+    private boolean TransactionSave(CardTransaction model, String gameCode) {
+        CardTransaction cardTransaction = new CardTransaction();
+        cardTransaction.setPartnerCode(model.getPartnerCode());
+        cardTransaction.setLoginId(model.getLoginId());
+        cardTransaction.setCardType(model.getCardType());
+        cardTransaction.setCardValue(model.getCardValue());
+        cardTransaction.setCardCode(model.getCardCode());
+        cardTransaction.setCardSerial(model.getCardSerial());
+        cardTransaction.setTransactionStatus(model.getTransactionStatus());
+        CardTransaction depositRs = this.cardTransactionRepository.save(cardTransaction);
+        if (depositRs != null) {
+            // log error system 
+            String transId = depositRs.getId();
+            cardHistoryService.loggedCardDepositHistory(
+                    "Nạp tiền cổng thanh toán: " + gameCode + ".",
+                    "",
+                    transId,
+                    model.getLoginId(),
+                    model.getCardValue()
+            );
+            return true;
+        }
+        return false;
+    }
 }

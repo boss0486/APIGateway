@@ -21,8 +21,8 @@ public class InternalNotifization {
         return new JsonResult(HttpStatus.OK.value(), message);
     }
 
-    public JsonDataResult SuccessResult(String message, Object data) {
-        return new JsonDataResult(HttpStatus.OK.value(), message, data);
+    public JsonResult SuccessResult(String message, Object data) {
+        return new JsonResult(HttpStatus.OK.value(), message, data);
     }
 
     public JsonResult InvalidResult(String message) {

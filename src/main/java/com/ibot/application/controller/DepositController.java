@@ -6,8 +6,6 @@
 package com.ibot.application.controller;
 
 import com.ibot.datawsdl.soapxml.ApiRechargeService;
-import com.ibot.module.entities.Api01TopupRequest;
-import com.ibot.module.entities.Test01;
 import com.ibot.module.entities.TopupModel;
 import com.ibot.notifization.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
