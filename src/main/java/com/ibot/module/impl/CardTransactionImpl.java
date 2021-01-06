@@ -59,12 +59,12 @@ public class CardTransactionImpl implements ICardTranstionService {
         String cardCode = model.cardCode;
         String cardSerial = model.cardSerial;
 
-        //
-        if (!ValidData.patternRoll.matcher(cardSerial).matches()) {
-            return Notification.Invalid("Mã Serial thẻ nạp không hợp lệ");
+        // 
+        if (cardSerial == null || "".equals(cardSerial) || !ValidData.patternRoll.matcher(cardSerial).matches()) {
+            return Notification.Invalid("Mã Seri thẻ nạp không hợp lệ");
         }
         //
-        if (!ValidData.patternRoll.matcher(cardCode).matches()) {
+        if (cardCode == null || "".equals(cardCode) || !ValidData.patternRoll.matcher(cardCode).matches()) {
             return Notification.Invalid("Mã thẻ nạp không hợp lệ");
         }
         //
@@ -72,8 +72,8 @@ public class CardTransactionImpl implements ICardTranstionService {
             return Notification.Invalid("Giá trị thẻ nạp không hợp lệ");
         }
         //
-        CardTransaction depositCard = cardTransactionRepository.findbySerial(cardSerial, cardType);
-        if (depositCard != null) {
+        CardTransaction cardTransactionCheck = cardTransactionRepository.validCard(cardSerial, cardCode, cardType);
+        if (cardTransactionCheck != null) {
             return Notification.Invalid("Thẻ nạp đã được sử dụng");
         }
         //
@@ -122,14 +122,14 @@ public class CardTransactionImpl implements ICardTranstionService {
         if (aPICompProviderEnum == EnumService.APIPartnerEnum.NONE) {
             return Notification.NotFound("Không tìm thấy nhà cung cấp dịch vụ");
         }
-         if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP01) {
-             Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
+        if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP01) {
+            Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
             // save data
             TransactionSave(cardTransaction, gameCode);
             return Notification.Success(result.getMessage(), api01TopupResult);
         }
         if (aPICompProviderEnum == EnumService.APIPartnerEnum.COMP02) {
-             Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
+            Api01TopupResult api01TopupResult = (Api01TopupResult) result.getData();
             // save data
             TransactionSave(cardTransaction, gameCode);
             return Notification.Success(result.getMessage(), api01TopupResult);
@@ -139,7 +139,7 @@ public class CardTransactionImpl implements ICardTranstionService {
             // save data
             TransactionSave(cardTransaction, gameCode);
             return Notification.Success(result.getMessage(), api01TopupResult);
-        }  
+        }
         System.out.println("Error: lỗi lưu data");
         return Notification.Error(result.getMessage());
     }

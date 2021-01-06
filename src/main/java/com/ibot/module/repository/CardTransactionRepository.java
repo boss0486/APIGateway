@@ -20,8 +20,8 @@ public interface CardTransactionRepository extends JpaRepository<CardTransaction
     public CardTransaction findbySerial(@Param("CardSerial") String cardSerial);
 
     //
-    @Query(value = "SELECT TOP 1 * FROM App_CardTransaction WHERE CardSerial = :CardSerial AND CardType = :CardType", nativeQuery = true)
-    public CardTransaction findbySerial(@Param("CardSerial") String cardSerial, @Param("CardType") int cardType);
+    @Query(value = "SELECT TOP 1 * FROM App_CardTransaction WHERE (CardSerial = :CardSerial OR CardCode = :CardCode) AND CardType = :CardType", nativeQuery = true)
+    public CardTransaction validCard(@Param("CardSerial") String cardSerial,@Param("CardCode") String cardCode, @Param("CardType") int cardType);
 
     //
     @Query(value = "SELECT TOP 1 * FROM App_CardTransaction WHERE CardCode=:CardCode", nativeQuery = true)

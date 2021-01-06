@@ -75,9 +75,8 @@ public class ApiRechargeService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         //
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
-        //ResponseEntity<Api01TopupResult> response = restTemplate.postForEntity(uri, requestBody, Api01TopupResult.class);
-
+        //HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
+        //ResponseEntity<Api01TopupResult> response = restTemplate.postForEntity(uri, requestBody, Api01TopupResult.class)
         MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
         map.add("api_key", model.api_key);
         map.add("card_seri", model.card_seri);
@@ -87,7 +86,7 @@ public class ApiRechargeService {
         map.add("card_type", model.card_type);
         map.add("signature", model.signature);
         //
-         RequestEntity request = RequestEntity.post(URI.create("http://localhost:51759/api/weatherforecast/Recharge"))
+        RequestEntity request = RequestEntity.post(URI.create("http://localhost:51759/api/weatherforecast/Recharge"))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .accept(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(map);
