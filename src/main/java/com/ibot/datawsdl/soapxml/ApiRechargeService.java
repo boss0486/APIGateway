@@ -5,9 +5,13 @@
  */
 package com.ibot.datawsdl.soapxml;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.ibot.module.base.entities.ApiResultModel;
 import com.ibot.module.entities.Api01TopupRequest;
 import com.ibot.module.entities.Api01TopupResult;
+import com.ibot.module.entities.Test01;
 import com.ibot.module.type.EnumService;
 import com.ibot.notifization.MessageText;
 import java.io.BufferedReader;
@@ -24,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -37,21 +42,43 @@ import org.xml.sax.SAXException;
  */
 public class ApiRechargeService {
 
+    public Api01TopupResult apiTest() {
+        // call api service
+
+//       String uri = "https://nap3s-6d9472890e72.banglangtim.club/api/recharge";
+        String uri = "http://localhost:51759/api/weatherforecast/test";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-COM-PERSIST", "true");
+        headers.set("X-COM-LOCATION", "USA");
+
+        //HttpEntity<Test01> request = new HttpEntity<>(model, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
+
+        System.out.println("::" + result);
+
+        return null;
+    }
+
     public Api01TopupResult apiCom01_Topup(Api01TopupRequest model) {
         // call api service
-        
-            String uri = "https://nap3s-6d9472890e72.banglangtim.club/api/recharge";
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            RestTemplate restTemplate = new RestTemplate();
-            // Dữ liệu đính kèm theo yêu cầu.
-            HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
-            // Gửi yêu cầu với phương thức POST.
-            Api01TopupResult apiTopupResult = restTemplate.postForObject(uri, requestBody, Api01TopupResult.class);
-            //
-            return apiTopupResult; 
+//       String uri = "https://nap3s-6d9472890e72.banglangtim.club/api/recharge";
+        String uri = "http://localhost:51759/api/weatherforecast/Recharge";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        RestTemplate restTemplate = new RestTemplate();
+        // Dữ liệu đính kèm theo yêu cầu.
+        HttpEntity<Api01TopupRequest> requestBody = new HttpEntity<>(model, headers);
+        // Gửi yêu cầu với phương thức POST. 
+        ResponseEntity<String> result1 = restTemplate.postForEntity(uri, requestBody, String.class);
+        Gson gson = new Gson();
+        Api01TopupResult api01TopupResult = gson.fromJson(result1.getBody(), Api01TopupResult.class); 
+        //
+        return api01TopupResult;
     }
     // XML ################################################################################################################
 

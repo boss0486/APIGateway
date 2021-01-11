@@ -9,7 +9,7 @@ package com.ibot.module.entities;
  *
  * @author Allen
  */
-public class Api01TopupRequest {
+public class Api01TopupRequest { 
 
     public String api_key;
     public String card_seri;
@@ -17,5 +17,5 @@ public class Api01TopupRequest {
     public String request_id;
     public int card_amount;
     public String card_type;
-    public String signature;
+    public String signature; 
 }

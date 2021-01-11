@@ -12,6 +12,6 @@ package com.ibot.module.entities;
 public class Api01TopupResult { 
     public int status ;
     public String message;
-    public String tran_id;
+    public Object data;
 }
  

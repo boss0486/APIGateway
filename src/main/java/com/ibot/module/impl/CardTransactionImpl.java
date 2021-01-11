@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package com.ibot.module.impl;
-
-import com.google.gson.Gson;
+ 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ibot.datawsdl.soapxml.ApiRechargeService;
 import com.ibot.library.Security;
 import com.ibot.library.ValidData;
@@ -136,9 +136,7 @@ public class CardTransactionImpl implements ICardTranstionService {
             } else {
                 return Notification.Invalid(result.getMessage());
             }
-        }
-        Gson gson = new Gson();
-        String jsonResult = gson.toJson(result);
+        } 
         //
         int transactionStatus = result.getCode();
         // save data 
@@ -150,12 +148,10 @@ public class CardTransactionImpl implements ICardTranstionService {
         cardTransaction.setCardCode(cardCode);
         cardTransaction.setCardSerial(cardSerial);
         cardTransaction.setTransactionStatus(transactionStatus);
-        CardTransaction depositRs = this.cardTransactionRepository.save(cardTransaction);
-        String transId = "";
+        CardTransaction depositRs = this.cardTransactionRepository.save(cardTransaction); 
         if (depositRs != null) {
-            // log error system
-            System.out.println("Error: lỗi lưu data");
-            transId = depositRs.getId();
+            // log error system 
+            String transId = depositRs.getId();
             cardHistoryService.loggedCardDepositHistory(
                     "Gd nạp tiền cổng thanh toán: " + gameCode + ".",
                     "",
@@ -165,10 +161,11 @@ public class CardTransactionImpl implements ICardTranstionService {
             );
             return Notification.Success(result.getMessage());
         }
+        System.out.println("Error: lỗi lưu data");
         return Notification.Error(result.getMessage());
     }
 
-    private ApiResultModel comp01Topup(TopupModel model) {
+    private ApiResultModel comp01Topup(TopupModel model)  {
         // model
         String requestId = model.requestId;
         int cardType = model.cardType;
@@ -200,7 +197,7 @@ public class CardTransactionImpl implements ICardTranstionService {
         if (api01TopupResult == null) {
             return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.INTERNAL_SERVER_ERROR.value(), MessageText.NotService);
         }
-        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), api01TopupResult.message, api01TopupResult.tran_id);
+        return new ApiResultModel(EnumService.APIPartnerEnum.COMP01, HttpStatus.OK.value(), api01TopupResult.message, api01TopupResult.data);
     }
 //    private ApiResultModel comp01Topup(TopupModel model) {
 //        int cardType = model.cardType;

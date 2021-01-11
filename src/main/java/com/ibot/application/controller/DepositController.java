@@ -5,7 +5,9 @@
  */
 package com.ibot.application.controller;
 
+import com.ibot.datawsdl.soapxml.ApiRechargeService;
 import com.ibot.module.entities.Api01TopupRequest;
+import com.ibot.module.entities.Test01;
 import com.ibot.module.entities.TopupModel;
 import com.ibot.notifization.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ibot.module.services.ICardTranstionService;
+import com.ibot.module.services.ICardTranstionService; 
+import com.ibot.notifization.JsonDataResult;
+import com.ibot.notifization.Notification;
 
 /**
  *
@@ -28,16 +32,16 @@ public class DepositController {
     ICardTranstionService iCardTranstionService;
 
     @ResponseBody
-    @RequestMapping(value = "api/test", method = RequestMethod.POST)
-    public Api01TopupRequest Test01(@RequestBody Api01TopupRequest model) {
-        return model;
+    @RequestMapping(value = "api/test", method = RequestMethod.GET)
+    public JsonDataResult Test01() {
+         ApiRechargeService apiRechargeService = new ApiRechargeService(); 
+       return Notification.Data("OK", apiRechargeService.apiTest());
     }
 
     //@PostMapping(value = "/api/deposit")
     @ResponseBody
     @RequestMapping(value = "api/transaction/topup", method = RequestMethod.POST)
-    public JsonResult ApiTopup(@RequestBody TopupModel model) { 
-        return iCardTranstionService.Topup(model);
+    public JsonResult ApiTopup(@RequestBody TopupModel model) {
+       return iCardTranstionService.Topup(model);  
     }
-
 }
